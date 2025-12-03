@@ -11,6 +11,10 @@ module.exports = {
     },
     get: (req, res, next) => {},
     patch: (req, res, next) => {},
-    delete: (req, res, next) => {}
+    delete: async (req, res, next) => {
+        await TaskModel.destroy({where: {id: req.params.id}}); // supprime la tache dont l'id est passé en paramètre dans l'url
+        res.sendStatus(204); // renvoie le code 204 qui signifie que la ressource a été supprimée avec succès
+
+    }
 };
 
