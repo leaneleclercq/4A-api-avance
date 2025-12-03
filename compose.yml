@@ -1,0 +1,26 @@
+services:
+    # création d'un conteneur sur node avec un chemin par defaut /app
+  backend:
+    image: node:latest
+    working_dir: /app # correspond à mon dossier api-avance qui est le dossier du conteneur, 
+    volumes:
+      - ./:/app # ici je mappe le dossier courant (./) vers le dossier /app du conteneur
+    command: sh -c "npm install && npm run dev"
+      # variable d'environnement pour configurer la base de données
+    environment:
+      - PORT="3000" # port d'écoute de l'application du conteneur 
+      - DATABASE_URL="postgres://user:password@db:5432/mydatabase"
+    ports:
+      - 127.0.0.1:3000:3000  
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - db_data:/var/lib/postgresql/data 
+
+volumes:
+  db_data: {} # définition d'une variable avec une valeur par défaut
