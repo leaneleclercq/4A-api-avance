@@ -1,0 +1,38 @@
+### c'est le nouveau POSTMAN ça me permet de faire mes requetes http dans VS Code
+### Collection GET
+
+GET http://localhost:3000/tasks
+
+### Collection POST - je traite l'ensemble des données 
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+    "title": "Dormir"
+}
+
+### Item GET - je traite une seule donnée avec un id 
+GET http://localhost:3000/tasks/xxxxx
+
+### Item PUT : replace
+PUT http://localhost:3000/tasks/xxxxx
+
+### Item PUT : create
+PUT http://localhost:3000/tasks/-1
+Content-type: application/json
+
+{
+    "title": "Travailler",
+    "completed": true
+}
+
+### Item PATCH
+PATCH http://localhost:3000/tasks/xxxxx
+Content-type: application/json  
+
+{
+    "completed": true
+}
+
+### Item DELETE
+DELETE http://localhost:3000/tasks/-1
