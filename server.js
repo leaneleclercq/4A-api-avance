@@ -1,8 +1,11 @@
 const express = require('express');
+const example = require('./middleware/formatSortie.js');
 
 const app = express();
 
 app.use(express.json()); // middleware pour parser le json dans le body
+
+app.use(example);
 
 const port = 3000;
 

@@ -2,6 +2,9 @@
 ### Collection GET
 
 GET http://localhost:3000/tasks
+Accept: application/json
+Accept-Language: fr;q=0.9,en-US;q=0.8,en;q=0.7, fr-FR
+
 
 ### Collection POST - je traite l'ensemble des données 
 POST http://localhost:3000/tasks
@@ -12,7 +15,8 @@ Content-Type: application/json
 }
 
 ### Item GET - je traite une seule donnée avec un id 
-GET http://localhost:3000/tasks/xxxxx
+GET http://localhost:3000/tasks/2
+Accept: text/xml
 
 ### Item PUT : replace
 PUT http://localhost:3000/tasks/xxxxx

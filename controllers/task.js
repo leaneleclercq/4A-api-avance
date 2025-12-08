@@ -1,8 +1,32 @@
+const initTranslations = require("../lib/i18next.js");
 const TaskModel = require("../models/task.js");
-
+const Papa = require("papaparse");  
+ //
 module.exports = {
   cget: async (req, res, next) => {
-    res.json(await TaskModel.findAll()); // renvoie le tableau de data des taches
+    const trad = initTranslations(req);
+    const tasks =  await TaskModel.findAll(); // trouve toutes les taches dans la base de données
+    res.render(
+      tasks.map((task) => {
+        task.dataValues.completed_trad = trad(
+        task.completed ? "completed" : "not-completed"); 
+        return task; 
+    }));
+    
+
+
+    // res.format({
+    //   'text/csv' () {
+    //     const csv = Papa.unparse(items.map((itemOrm) => itemOrm.dataValues))
+    //     res.setHeader('Content-type', 'text/csv');
+    //     res.send(csv);
+    //   },
+    //   default() {
+    //     res.json(items);
+    //   },  
+    // });
+
+  
   },
   post: async (req, res, next) => {
     const newData = req.body;
@@ -12,7 +36,16 @@ module.exports = {
   get: async (req, res, next) => {
     const task = await TaskModel.findByPk(req.params.id);
     if (task) {
-      res.json(task); // renvoie l'objet tache dont l'id est passé en paramètre dans l'url
+      res.format({
+        'text/csv' () {
+          const csv = Papa.unparse([task.dataValues])
+          res.setHeader('Content-type', 'text/csv');
+          res.send(csv);
+        },
+        default() {
+          res.json(task); 
+        },  
+      });
     } else {
       res.sendStatus(404); // renvoie le code 404 qui signifie que la ressource n'a pas été trouvée
     }
