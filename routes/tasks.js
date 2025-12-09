@@ -1,10 +1,19 @@
 const { Router } = require("express");
 const TaskController = require("../controllers/task.js");
 const router = new Router();
+const apiVersioning = require("../middleware/versioning.js");
 
 // Collection GET => list
 // Http Code : 200
-router.get("/tasks", TaskController.cget);
+router.get(
+  "/tasks",
+  apiVersioning({
+    v1: TaskController.cgetV1,
+    v2: TaskController.cgetV2,
+    default: TaskController.cget,
+  })
+);
+// j'utilise l'apiVersoning ici
 
 // Collection POST => create
 // Http Code : 201
